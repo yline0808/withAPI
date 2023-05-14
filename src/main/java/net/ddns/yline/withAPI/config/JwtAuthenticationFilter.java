@@ -1,4 +1,4 @@
-package net.ddns.yline.withAPI.config;
+/*package net.ddns.yline.withAPI.config;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -24,3 +24,4 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     }
 }
+*/

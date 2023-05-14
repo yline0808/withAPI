@@ -1,4 +1,4 @@
-package net.ddns.yline.withAPI.token;
+/*package net.ddns.yline.withAPI.token;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -31,3 +31,4 @@ public class Token {
     @JoinColumn(name = "account_id")
     private Account account;
 }
+*/
