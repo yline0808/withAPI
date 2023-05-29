@@ -1,4 +1,4 @@
-/*package net.ddns.yline.withAPI.domain.account;
+package net.ddns.yline.withAPI.domain.account;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -75,4 +75,3 @@ public class Account implements UserDetails {
         return true;
     }
 }
-*/
