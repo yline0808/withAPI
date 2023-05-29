@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import net.ddns.yline.withAPI.token.Token;
+import net.ddns.yline.withAPI.domain.token.Token;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,9 +25,12 @@ public class Account implements UserDetails {
     @GeneratedValue
     private Long Id;
     private String name;
-    private String nickname;
     private String email;
+    private String phone;
     private String password;
+    private Integer failCnt;
+    @Enumerated(EnumType.STRING)
+    private AccountStatus accountStatus;
     @Enumerated(EnumType.STRING)
     private Role role;
 
