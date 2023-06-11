@@ -1,5 +1,6 @@
 package net.ddns.yline.withAPI.controller.auth;
 
+import jakarta.validation.Valid;
 import lombok.*;
 import net.ddns.yline.withAPI.service.AuthenticationService;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,7 @@ public class AuthenticationController {
 
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(
-            @RequestBody RegisterRequest request
+            @RequestBody @Valid RegisterRequest request
     ) {
         return ResponseEntity.ok(authenticationService.register(request));
     }

@@ -14,3 +14,5 @@ spring:
         format_sql: true
     database: h2
     database-platform: org.hibernate.dialect.H2Dialect
+
+secret-key: 3878214125442A472D4B6150645367566B597033733676397924423F4528482B

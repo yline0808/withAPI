@@ -1,6 +1,7 @@
 package net.ddns.yline.withAPI.domain.account;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,6 +28,7 @@ public class Account implements UserDetails {
     private String name;
     private String email;
     private String phone;
+
     private String password;
     private Integer failCnt;
     @Enumerated(EnumType.STRING)

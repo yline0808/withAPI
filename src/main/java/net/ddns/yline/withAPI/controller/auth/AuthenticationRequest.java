@@ -1,5 +1,6 @@
 package net.ddns.yline.withAPI.controller.auth;
 
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,5 +12,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AuthenticationRequest{
     private String email;
-    String password;
+    private String password;
 }
