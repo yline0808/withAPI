@@ -1,11 +1,11 @@
 package net.ddns.yline.withAPI.domain.account;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import net.ddns.yline.withAPI.domain.contractmap.ContractMap;
 import net.ddns.yline.withAPI.domain.token.Token;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -28,16 +28,16 @@ public class Account implements UserDetails {
     private String name;
     private String email;
     private String phone;
-
     private String password;
     private Integer failCnt;
     @Enumerated(EnumType.STRING)
     private AccountStatus accountStatus;
     @Enumerated(EnumType.STRING)
     private Role role;
-
     @OneToMany(mappedBy = "account")
     private List<Token> tokens;
+    @OneToMany(mappedBy = "account")
+    private List<ContractMap> contractMapList = new ArrayList<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
