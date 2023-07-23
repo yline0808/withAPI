@@ -1,7 +1,7 @@
 package net.ddns.yline.withAPI.config;
 
 import lombok.RequiredArgsConstructor;
-import net.ddns.yline.withAPI.repository.AccountRepository;
+import net.ddns.yline.withAPI.repository.account.AccountRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;

@@ -50,6 +50,10 @@ public class Account implements UserDetails {
         return authorities;
     }
 
+    public void updatePassword(String password) {
+        this.password = password;
+    }
+
     @Override
     public String getPassword() {
         return this.password;

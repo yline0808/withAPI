@@ -9,7 +9,7 @@ import net.ddns.yline.withAPI.domain.account.AccountStatus;
 import net.ddns.yline.withAPI.domain.account.Role;
 import net.ddns.yline.withAPI.domain.token.Token;
 import net.ddns.yline.withAPI.domain.token.TokenType;
-import net.ddns.yline.withAPI.repository.AccountRepository;
+import net.ddns.yline.withAPI.repository.account.AccountRepository;
 import net.ddns.yline.withAPI.repository.TokenRepository;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
