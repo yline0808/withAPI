@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import net.ddns.yline.withAPI.domain.contract.Contract;
 import net.ddns.yline.withAPI.service.contract.ContractService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,14 +19,14 @@ public class ContractController {
     private final ContractService contractService;
 
     @PostMapping
-    public CreateContractResponse saveContract(@RequestBody @Valid CreateContractRequest request) {
+    public ResponseEntity<CreateContractResponse> saveContract(@RequestBody @Valid CreateContractRequest request) {
         Contract contract = new Contract();
         contract.setTitle(request.getTitle());
         contract.setContent(request.getContent());
         contract.setFileName(request.getFileName());
 
         Long id = contractService.save(contract);
-        return new CreateContractResponse(id);
+        return ResponseEntity.ok(new CreateContractResponse(id));
     }
 
     @Data

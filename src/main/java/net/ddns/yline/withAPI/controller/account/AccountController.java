@@ -47,6 +47,15 @@ public class AccountController {
     }
 
     @Data
+    static class AccountResponse{
+        private Long id;
+
+        public AccountResponse(Long id) {
+            this.id = id;
+        }
+    }
+
+    @Data
     static class AccountRequest{
         private String email;
     }

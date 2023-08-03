@@ -28,9 +28,11 @@ public class AuthenticationService {
     //사용자 생성 & 데이터베이스 저장 & 토큰생성반환
     public AuthenticationResponse register(RegisterRequest request) {
         var account = Account.builder()
+                .birthDate(request.getBirthDate())
                 .email(request.getEmail())
                 .name(request.getName())
                 .phone(request.getPhone())
+                .address(request.getAddress())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(Role.USER)
                 .accountStatus(AccountStatus.NORMAL)

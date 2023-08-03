@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import net.ddns.yline.withAPI.domain.address.Address;
 import net.ddns.yline.withAPI.domain.contractmap.ContractMap;
 import net.ddns.yline.withAPI.domain.token.Token;
 import org.springframework.security.core.GrantedAuthority;
@@ -26,6 +27,7 @@ public class Account implements UserDetails {
     @GeneratedValue
     private Long Id;
     private String name;
+    private String birthDate;
     private String email;
     private String phone;
     private String password;
@@ -38,6 +40,8 @@ public class Account implements UserDetails {
     private List<Token> tokens;
     @OneToMany(mappedBy = "account")
     private List<ContractMap> contractMapList = new ArrayList<>();
+    @Embedded
+    private Address address;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

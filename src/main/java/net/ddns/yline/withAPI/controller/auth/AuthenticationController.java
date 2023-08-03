@@ -16,6 +16,11 @@ public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
 
+    /**
+     * 가입
+     * @param request
+     * @return
+     */
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(
             @RequestBody @Valid RegisterRequest request
@@ -23,6 +28,11 @@ public class AuthenticationController {
         return ResponseEntity.ok(authenticationService.register(request));
     }
 
+    /**
+     * 인증
+     * @param request
+     * @return
+     */
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> register(
             @RequestBody AuthenticationRequest request

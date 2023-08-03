@@ -15,4 +15,13 @@ spring:
     database: h2
     database-platform: org.hibernate.dialect.H2Dialect
 
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: yline0088@gmail.com
+    password: brqbywyusztkcxsr
+    #    password: nehxiofgzofqhlyd
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
 secret-key: 3878214125442A472D4B6150645367566B597033733676397924423F4528482B

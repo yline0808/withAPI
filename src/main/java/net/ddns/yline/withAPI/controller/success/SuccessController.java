@@ -11,6 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/success-controller")
 public class SuccessController {
 
+    /**
+     * 인증용 테스트
+     * @return
+     */
     @GetMapping
     public ResponseEntity<String> success() {
         return ResponseEntity.ok("Hello from secured endpoint");
