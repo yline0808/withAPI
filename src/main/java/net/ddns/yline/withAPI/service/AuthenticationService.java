@@ -7,6 +7,7 @@ import net.ddns.yline.withAPI.controller.auth.RegisterRequest;
 import net.ddns.yline.withAPI.domain.account.Account;
 import net.ddns.yline.withAPI.domain.account.AccountStatus;
 import net.ddns.yline.withAPI.domain.account.Role;
+import net.ddns.yline.withAPI.domain.address.Address;
 import net.ddns.yline.withAPI.domain.token.Token;
 import net.ddns.yline.withAPI.domain.token.TokenType;
 import net.ddns.yline.withAPI.repository.account.AccountRepository;
@@ -32,7 +33,7 @@ public class AuthenticationService {
                 .email(request.getEmail())
                 .name(request.getName())
                 .phone(request.getPhone())
-                .address(request.getAddress())
+                .address(new Address(request.getAddressMain(), request.getAddressDetail(), request.getZoneCode()))
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(Role.USER)
                 .accountStatus(AccountStatus.NORMAL)

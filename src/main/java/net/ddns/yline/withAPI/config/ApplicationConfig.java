@@ -1,6 +1,8 @@
 package net.ddns.yline.withAPI.config;
 
 import lombok.RequiredArgsConstructor;
+import net.ddns.yline.withAPI.execption.resolver.MyHandlerExceptionResolver;
+import net.ddns.yline.withAPI.execption.resolver.UserHandlerExceptionResolver;
 import net.ddns.yline.withAPI.repository.account.AccountRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,10 +14,14 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.servlet.HandlerExceptionResolver;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import java.util.List;
 
 @Configuration
 @RequiredArgsConstructor
-public class ApplicationConfig {
+public class ApplicationConfig implements WebMvcConfigurer {
 
     private final AccountRepository userRepository;
 
@@ -45,5 +51,12 @@ public class ApplicationConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Override
+    public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
+        //직접 만든 HandlerExceptionResolver 등록
+        resolvers.add(new UserHandlerExceptionResolver());
+        resolvers.add(new MyHandlerExceptionResolver());
     }
 }
