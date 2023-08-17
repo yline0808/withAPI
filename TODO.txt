@@ -1,0 +1,5 @@
+[진행중]
+* 예외사항별 커스텀 처리
+
+[예정사항]
+* 현재는 전부 ExControllerAdvice > exHandler 메서드로 빠지는데 확인해서 상황에 맞는 handler로 빠지도록 진행
