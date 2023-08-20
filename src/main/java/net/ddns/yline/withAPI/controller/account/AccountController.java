@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.ddns.yline.withAPI.controller.SuccessResult;
 import net.ddns.yline.withAPI.domain.account.Account;
 import net.ddns.yline.withAPI.domain.account.AccountStatus;
 import net.ddns.yline.withAPI.domain.account.Role;
@@ -53,21 +54,32 @@ public class AccountController {
         ));
     }
 
+    @PostMapping("/sendAuthCode")
+    public ResponseEntity<SuccessResult> sendAuthCode(@RequestBody @Valid AccountRequest request) {
+        String authCode = accountService.getAuthCode();
+
+        MailVo mail = mailService.createAuthCodeMail(authCode, request.getEmail());
+        mailService.sendMail(mail);
+
+        log.info("success send mail");
+        return ResponseEntity.ok(new SuccessResult("Success send mail","메일발송 성공"));
+    }
+
     /**
      * 임시 비밀번호 전송
      * @param request
      * @return
      */
     @PostMapping("/sendPwd")
-    public ResponseEntity<String> sendPwdEmail(@RequestBody @Valid AccountRequest request) {
+    public ResponseEntity<SuccessResult> sendPwdEmail(@RequestBody @Valid AccountRequest request) {
         String tmpPassword = accountService.getTmpPassword();
         accountService.updatePassword(tmpPassword, request.getEmail());
 
-        MailVo mail = mailService.createMail(tmpPassword, request.getEmail());
+        MailVo mail = mailService.createPwUpdateMail(tmpPassword, request.getEmail());
         mailService.sendMail(mail);
 
         log.info("success send mail!");
-        return ResponseEntity.ok("success send mail!");
+        return ResponseEntity.ok(new SuccessResult("Success send mail","메일발송 성공"));
     }
 
     @Data

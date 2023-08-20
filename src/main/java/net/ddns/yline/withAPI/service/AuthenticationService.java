@@ -36,7 +36,7 @@ public class AuthenticationService {
                 .address(new Address(request.getAddressMain(), request.getAddressDetail(), request.getZoneCode()))
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(Role.USER)
-                .accountStatus(AccountStatus.NORMAL)
+                .accountStatus(AccountStatus.UNAUTH)
                 .failCnt(0)
                 .build();
         var savedAccount = accountRepository.save(account);

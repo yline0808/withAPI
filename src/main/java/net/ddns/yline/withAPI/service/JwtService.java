@@ -21,8 +21,10 @@ import java.util.function.Function;
 @Slf4j
 public class JwtService {
     //여기 사이트에서 자동으로 키 생성해줌 -> https://www.allkeysgenerator.com
-    @Value("${secret-key}")
+    @Value("${jwt.secret-key}")
     private String SECRET_KEY;
+    @Value("${jwt.expiration}")
+    private String expiration;
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -45,7 +47,7 @@ public class JwtService {
                 .setClaims(extraClaims)
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000L * 60L * 60L * 24L * Long.parseLong(expiration)))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
     }

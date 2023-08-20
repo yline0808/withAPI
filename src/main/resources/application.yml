@@ -24,4 +24,6 @@ spring:
     properties:
       mail.smtp.auth: true
       mail.smtp.starttls.enable: true
-secret-key: 3878214125442A472D4B6150645367566B597033733676397924423F4528482B
+jwt:
+  secret-key: 3878214125442A472D4B6150645367566B597033733676397924423F4528482B
+  expiration: 24

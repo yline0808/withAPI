@@ -20,7 +20,20 @@ public class MailServiceImpl{
             + "\n" + "회원님의 임시 비밀번호는 아래와 같습니다. 로그인 후 반드시 비밀번호를 변경해주세요." + "\n";
     private static final String fromAddress = "${spring.mail.username}";
 
-    public MailVo createMail(String tmpPassword, String memberEmail) {
+    public MailVo createAuthCodeMail(String authCode, String memberEmail) {
+
+        MailVo mailVo = MailVo.builder()
+                .toAddress(memberEmail)
+                .title("with 가입 코드 안내 이메일입니다.")
+                .message("안녕하세요. with 가입 코드 안내 메일입니다.\n회원님의 가입 코드는 아래와 같습니다. 3분안에 가입 코드를 입력해주세요.\n"+authCode)
+                .fromAddress(fromAddress)
+                .build();
+
+        log.info("메일 생성 완료");
+        return mailVo;
+    }
+
+    public MailVo createPwUpdateMail(String tmpPassword, String memberEmail) {
 
         MailVo mailVo = MailVo.builder()
                 .toAddress(memberEmail)
