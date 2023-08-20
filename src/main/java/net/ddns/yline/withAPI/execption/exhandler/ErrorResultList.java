@@ -1,13 +1,13 @@
-package net.ddns.yline.withAPI.execption.exhandler.advice;
+package net.ddns.yline.withAPI.execption.exhandler;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.util.Map;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
 public class ErrorResultList {
     private String code;
-    private Map<Integer, String> errMap;
+    private List<String> messageList;
 }

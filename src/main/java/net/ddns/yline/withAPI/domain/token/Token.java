@@ -6,13 +6,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import net.ddns.yline.withAPI.domain.account.Account;
+import net.ddns.yline.withAPI.domain.base.BaseEntity;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Token {
+public class Token extends BaseEntity {
     @Id
     @GeneratedValue
     private Long id;

@@ -4,8 +4,11 @@ import lombok.RequiredArgsConstructor;
 import net.ddns.yline.withAPI.execption.resolver.MyHandlerExceptionResolver;
 import net.ddns.yline.withAPI.execption.resolver.UserHandlerExceptionResolver;
 import net.ddns.yline.withAPI.repository.account.AccountRepository;
+import net.ddns.yline.withAPI.util.CustomAuditorAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.domain.AuditorAware;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -21,6 +24,7 @@ import java.util.List;
 
 @Configuration
 @RequiredArgsConstructor
+@EnableJpaAuditing(auditorAwareRef = "auditorProvider")
 public class ApplicationConfig implements WebMvcConfigurer {
 
     private final AccountRepository userRepository;
@@ -58,5 +62,14 @@ public class ApplicationConfig implements WebMvcConfigurer {
         //직접 만든 HandlerExceptionResolver 등록
         resolvers.add(new UserHandlerExceptionResolver());
         resolvers.add(new MyHandlerExceptionResolver());
+    }
+
+    /**
+     * Account의 id_email 형식으로 baseEntity id 값 지정
+     * @return
+     */
+    @Bean
+    public AuditorAware<String> auditorProvider() {
+        return new CustomAuditorAware();
     }
 }

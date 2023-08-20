@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import net.ddns.yline.withAPI.domain.address.Address;
+import net.ddns.yline.withAPI.domain.base.BaseEntity;
 import net.ddns.yline.withAPI.domain.contractmap.ContractMap;
 import net.ddns.yline.withAPI.domain.token.Token;
 import org.springframework.security.core.GrantedAuthority;
@@ -21,7 +22,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Account implements UserDetails {
+public class Account extends BaseEntity implements UserDetails {
 
     @Id
     @GeneratedValue

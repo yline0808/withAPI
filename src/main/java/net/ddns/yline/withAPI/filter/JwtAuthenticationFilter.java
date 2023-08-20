@@ -1,5 +1,6 @@
 package net.ddns.yline.withAPI.filter;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -29,7 +30,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             @NonNull HttpServletRequest request,
             @NonNull HttpServletResponse response,
             @NonNull FilterChain filterChain
-    ) throws ServletException, IOException {
+    ) throws ExpiredJwtException, ServletException, IOException {
         //헤더에서 토큰 꺼내기
         final String authHeader = request.getHeader("Authorization");
         final String jwt;
@@ -45,7 +46,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         //7부터 자리하는 이유는 위에 "Bearer "인덱스가 6까지이기 때문
         jwt = authHeader.substring(7);
 
-        //TODO jwt에서 userEmail 추철하는것 만들어야함
+        //TODO jwt에서 userEmail 추출하는것 만들어야함
         userEmail = jwtService.extractUsername(jwt);
         //아직 유저 이메일이 있고 인증되지 않았을 경우
         if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {

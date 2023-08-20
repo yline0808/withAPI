@@ -1,14 +1,21 @@
 package net.ddns.yline.withAPI.controller.account;
 
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.ddns.yline.withAPI.domain.account.Account;
+import net.ddns.yline.withAPI.domain.account.AccountStatus;
+import net.ddns.yline.withAPI.domain.account.Role;
+import net.ddns.yline.withAPI.domain.address.Address;
 import net.ddns.yline.withAPI.domain.mailvo.MailVo;
 import net.ddns.yline.withAPI.service.account.AccountService;
 import net.ddns.yline.withAPI.service.mail.MailServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 
 @RestController
 @RequiredArgsConstructor
@@ -29,6 +36,23 @@ public class AccountController {
         return accountService.checkEmail(email);
     }
 
+    @GetMapping("/currentUser")
+    public ResponseEntity<AccountResponse> currentUser(Principal principal) {
+        String currentEmail = principal.getName();
+        Account findAccount = accountService.findByEmail(currentEmail);
+        return ResponseEntity.ok(new AccountResponse(
+                findAccount.getName(),
+                findAccount.getBirthDate(),
+                findAccount.getEmail(),
+                findAccount.getPhone(),
+                findAccount.getAccountStatus(),
+                findAccount.getRole(),
+                findAccount.getAddress().getAddressMain(),
+                findAccount.getAddress().getAddressDetail(),
+                findAccount.getAddress().getZoneCode()
+        ));
+    }
+
     /**
      * 임시 비밀번호 전송
      * @param request
@@ -47,12 +71,17 @@ public class AccountController {
     }
 
     @Data
+    @AllArgsConstructor
     static class AccountResponse{
-        private Long id;
-
-        public AccountResponse(Long id) {
-            this.id = id;
-        }
+        private String name;
+        private String birthDate;
+        private String email;
+        private String phone;
+        private AccountStatus accountStatus;
+        private Role role;
+        private String addressMain;
+        private String addressDetail;
+        private String zoneCode;
     }
 
     @Data
