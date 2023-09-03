@@ -1,19 +1,21 @@
 spring:
   datasource:
-    url: jdbc:h2:tcp://localhost/~/project/locationAlarm/db_dev
+    url: jdbc:p6spy:h2:tcp://localhost/~/project/locationAlarm/db_dev
     username: sa
     password:
-      driver-class-name: org.h2.Driver
+#    driver-class-name: org.h2.Driver
+    driver-class-name: com.p6spy.engine.spy.P6SpyDriver
 
   jpa:
     hibernate:
       ddl-auto: create-drop
-    show-sql: true
+#    show-sql: true
+    format_sql: true
     properties:
       hibernate:
         format_sql: true
-    database: h2
-    database-platform: org.hibernate.dialect.H2Dialect
+#    database: h2
+#    database-platform: org.hibernate.dialect.H2Dialect
 
   mail:
     host: smtp.gmail.com
@@ -24,6 +26,7 @@ spring:
     properties:
       mail.smtp.auth: true
       mail.smtp.starttls.enable: true
+
 jwt:
   secret-key: 3878214125442A472D4B6150645367566B597033733676397924423F4528482B
   expiration: 24

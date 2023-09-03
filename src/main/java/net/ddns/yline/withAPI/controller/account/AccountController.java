@@ -9,7 +9,6 @@ import net.ddns.yline.withAPI.controller.SuccessResult;
 import net.ddns.yline.withAPI.domain.account.Account;
 import net.ddns.yline.withAPI.domain.account.AccountStatus;
 import net.ddns.yline.withAPI.domain.account.Role;
-import net.ddns.yline.withAPI.domain.address.Address;
 import net.ddns.yline.withAPI.domain.mailvo.MailVo;
 import net.ddns.yline.withAPI.service.account.AccountService;
 import net.ddns.yline.withAPI.service.mail.MailServiceImpl;
@@ -38,7 +37,7 @@ public class AccountController {
     }
 
     @GetMapping("/currentUser")
-    public ResponseEntity<AccountResponse> currentUser(Principal principal) {
+    public ResponseEntity<AccountResponse> getCurrentUser(Principal principal) {
         String currentEmail = principal.getName();
         Account findAccount = accountService.findByEmail(currentEmail);
         return ResponseEntity.ok(new AccountResponse(
@@ -54,15 +53,10 @@ public class AccountController {
         ));
     }
 
-    @PostMapping("/sendAuthCode")
-    public ResponseEntity<SuccessResult> sendAuthCode(@RequestBody @Valid AccountRequest request) {
-        String authCode = accountService.getAuthCode();
-
-        MailVo mail = mailService.createAuthCodeMail(authCode, request.getEmail());
-        mailService.sendMail(mail);
-
-        log.info("success send mail");
-        return ResponseEntity.ok(new SuccessResult("Success send mail","메일발송 성공"));
+    @PatchMapping("/currentUser")
+    public ResponseEntity<SuccessResult> modifyCurrentUser(@RequestBody @Valid ModifyAccountRequest request) {
+        accountService.updatePassword(request.getEmail(), request.getPassword());
+        return ResponseEntity.ok(new SuccessResult("Success change password", "비밀번호 변경 완료"));
     }
 
     /**
@@ -73,7 +67,7 @@ public class AccountController {
     @PostMapping("/sendPwd")
     public ResponseEntity<SuccessResult> sendPwdEmail(@RequestBody @Valid AccountRequest request) {
         String tmpPassword = accountService.getTmpPassword();
-        accountService.updatePassword(tmpPassword, request.getEmail());
+        accountService.updateTempPassword(tmpPassword, request.getEmail());
 
         MailVo mail = mailService.createPwUpdateMail(tmpPassword, request.getEmail());
         mailService.sendMail(mail);
@@ -88,6 +82,18 @@ public class AccountController {
         private String name;
         private String birthDate;
         private String email;
+        private String phone;
+        private AccountStatus accountStatus;
+        private Role role;
+        private String addressMain;
+        private String addressDetail;
+        private String zoneCode;
+    }
+
+    @Data
+    static class ModifyAccountRequest{
+        private String email;
+        private String password;
         private String phone;
         private AccountStatus accountStatus;
         private Role role;

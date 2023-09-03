@@ -29,7 +29,7 @@ public class SecurityConfig {
                 //인증여부
                 .authorizeHttpRequests()
                 //인증이 필요없는 화이트리스트 링크
-                .requestMatchers("/api/v1/auth/**", "/test/**", "/api/v1/account/sendAuthCode")
+                .requestMatchers("/api/v1/auth/**", "/test/**", "/api/v1/account/sendAuthCode", "/api/v1/account/sendPwd", "/api/v1/authInfo/**")
                 .permitAll()
 
                 //다른 요청은 모두 인증받도록
