@@ -3,6 +3,10 @@
 
 [예정사항]
 * 현재는 전부 ExControllerAdvice > exHandler 메서드로 빠지는데 확인해서 상황에 맞는 handler로 빠지도록 진행
+* 오류사항
+    - 이미 인증된 코드 처리 로직 추가
+    - 비번 변경시 비번체크로직 추가
+    - 이메일 중복 확인
 
 [api]
 * 회원 관련
@@ -13,7 +17,9 @@
     - 임시비번[POST]
         http://yline.iptime.org:18080/api/v1/account/sendPwd
     - 이메일 인증 [POST]
-        http://yline.iptime.org:18080/api/v1/account/sendAuthCode
+        http://yline.iptime.org:18080/api/v1/authInfo/sendAuthCode
+    - 인증번호 확인 [POST]
+        http://yline.iptime.org:18080/api/v1/authInfo/isValid
     - 유저정보 [GET]
         http://yline.iptime.org:18080/api/v1/account/currentUser
     - 유저정보 변경 [PATCH]

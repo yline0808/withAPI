@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class ContractService {
     private final ContractRepository contractRepository;
 
+    @Transactional
     public Long save(Contract contract) {
         contractRepository.save(contract);
         return contract.getId();

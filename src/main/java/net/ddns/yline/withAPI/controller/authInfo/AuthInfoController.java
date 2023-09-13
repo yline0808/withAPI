@@ -8,6 +8,7 @@ import net.ddns.yline.withAPI.controller.SuccessResult;
 import net.ddns.yline.withAPI.domain.authInfo.AuthInfo;
 import net.ddns.yline.withAPI.domain.authInfo.ValidType;
 import net.ddns.yline.withAPI.domain.mailvo.MailVo;
+import net.ddns.yline.withAPI.service.account.AccountService;
 import net.ddns.yline.withAPI.service.authInfo.AuthInfoService;
 import net.ddns.yline.withAPI.service.mail.MailServiceImpl;
 import org.springframework.http.ResponseEntity;
@@ -22,9 +23,13 @@ import java.time.LocalDateTime;
 public class AuthInfoController {
     private final AuthInfoService authInfoService;
     private final MailServiceImpl mailService;
+    private final AccountService accountService;
 
     @PostMapping("/sendAuthCode")
     public ResponseEntity<SuccessResult> sendAuthCode(@RequestBody @Valid AuthInfoSendRequest request) {
+        boolean isMailExist = accountService.checkEmail(request.getEmail());
+        if(isMailExist) throw new IllegalArgumentException("이미 가입된 메일이 있습니다.");
+
         String authCode = authInfoService.getAuthCode();
 
         MailVo mail = mailService.createAuthCodeMail(authCode, request.getEmail());
@@ -34,7 +39,7 @@ public class AuthInfoController {
                 .email(request.getEmail())
                 .code(authCode)
                 .validType(ValidType.INVALID)
-                .authTime(LocalDateTime.now().plusMinutes(1))
+                .authTime(LocalDateTime.now().plusMinutes(3))
                 .build();
         authInfoService.saveSendAuthInfo(authInfo);
 
