@@ -6,7 +6,9 @@ import lombok.RequiredArgsConstructor;
 import net.ddns.yline.withAPI.controller.SuccessResult;
 import net.ddns.yline.withAPI.domain.account.Account;
 import net.ddns.yline.withAPI.domain.contract.Contract;
+import net.ddns.yline.withAPI.domain.contract.ContractStatus;
 import net.ddns.yline.withAPI.domain.contractmap.ContractMap;
+import net.ddns.yline.withAPI.domain.contractmap.Opinion;
 import net.ddns.yline.withAPI.service.account.AccountService;
 import net.ddns.yline.withAPI.service.contract.ContractService;
 import net.ddns.yline.withAPI.service.contractMap.ContractMapService;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -31,20 +34,45 @@ public class ContractController {
 
     @PostMapping
     public ResponseEntity<SuccessResult> saveContract(@RequestBody @Valid CreateContractRequest request, Principal principal) {
+        //===계약서 생성===
         Contract contract = new Contract();
         contract.setTitle(request.getTitle());
         contract.setContent(request.getContent());
+        contract.setContractStatus(ContractStatus.INVALID);
 
+        //===계약서 저장===
         contractService.save(contract);
 
-        String email = principal.getName();
-        Account findAccount = accountService.findByEmail(email);
+        //===계약서 관련된 계정 검색===
+        List<String> emails = new ArrayList<>();
+        emails.add(principal.getName());
 
-        ContractMap contractMap = new ContractMap();
-        contractMap.setContract(contract);
-        contractMap.setAccount(findAccount);
+        List<Account> findAccountList = accountService.findByEmailList(emails);
 
-        contractMapService.save(contractMap);
+        //===이메일 개수와 찾은 account개수 비교===
+        List<String> invalidEmailList;
+        List<String> findAccountEmailList = findAccountList.stream()
+                .map(Account::getEmail)
+                .toList();
+
+        if (emails.size() != findAccountList.size()) {
+            invalidEmailList = emails.stream().filter(findAccountEmailList::contains).toList();
+            throw new IllegalArgumentException(invalidEmailList.toString() + "에 해당하는 계정이 없습니다.");
+        }
+
+        //===account에 contract 추가(연관관계 메서드)===
+        List<ContractMap> contractMapList = new ArrayList<>();
+
+        findAccountList.forEach(account -> {
+            ContractMap contractMap = new ContractMap();
+            contractMap.setContract(contract);
+            contractMap.setAccount(account);
+            contractMap.setOpinion(Opinion.BEFORE);
+            contractMapList.add(contractMap);
+        });
+
+        //===contractMap save!!===
+        contractMapService.saveAll(contractMapList);
 
         return ResponseEntity.ok(new SuccessResult("Success save contract","계약서 저장 성공"));
     }

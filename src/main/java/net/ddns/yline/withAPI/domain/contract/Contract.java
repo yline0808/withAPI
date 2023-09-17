@@ -22,8 +22,9 @@ public class Contract extends BaseEntity {
     private String title;
     @Setter
     private String content;
+    @Setter
     @Enumerated(EnumType.STRING)
-    private ContentStatus contentStatus;
+    private ContractStatus contractStatus;
     private String imgSeq;
     @Setter
     private String fileName;

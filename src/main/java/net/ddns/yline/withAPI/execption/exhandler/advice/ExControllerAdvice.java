@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -77,6 +78,13 @@ public class ExControllerAdvice {
     public ResponseEntity<ErrorResult> signatureHandler(SignatureException e) {
         log.error("[SignatureException]", e);
         ErrorResult errorResult = new ErrorResult("token signature error", e.getMessage());
+        return new ResponseEntity<>(errorResult, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(UsernameNotFoundException.class)
+    public ResponseEntity<ErrorResult> usernameNotFoundHandler(UsernameNotFoundException e) {
+        log.error("[UsernameNotFoundException]", e);
+        ErrorResult errorResult = new ErrorResult("username not found", e.getMessage());
         return new ResponseEntity<>(errorResult, HttpStatus.BAD_REQUEST);
     }
 

@@ -1,8 +1,7 @@
 package net.ddns.yline.withAPI.domain.contractmap;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import net.ddns.yline.withAPI.domain.account.Account;
 import net.ddns.yline.withAPI.domain.contract.Contract;
 
@@ -11,6 +10,7 @@ import static jakarta.persistence.FetchType.*;
 
 @Entity
 @Getter
+//@NoArgsConstructor
 public class ContractMap {
 
     @Id

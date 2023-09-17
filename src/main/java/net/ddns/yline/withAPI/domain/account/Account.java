@@ -59,6 +59,12 @@ public class Account extends BaseEntity implements UserDetails {
         this.password = password;
     }
 
+    //===계약서 추가(연관관계 메서드)===
+    public void addContract(ContractMap contractMap) {
+        this.contractMapList.add(contractMap);
+
+    }
+
     @Override
     public String getPassword() {
         return this.password;

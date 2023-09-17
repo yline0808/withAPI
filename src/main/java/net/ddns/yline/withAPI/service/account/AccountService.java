@@ -8,6 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -28,6 +29,11 @@ public class AccountService {
     public Account findByEmail(String email) {
         return accountRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("해당 이메일 없음"));
+    }
+
+    public List<Account> findByEmailList(List<String> emails) {
+        return accountRepository.findByEmailIn(emails)
+                .orElseThrow(() -> new IllegalArgumentException("이메일 list 검색 오류"));
     }
 
     @Transactional
