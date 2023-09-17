@@ -46,6 +46,7 @@ public class ContractController {
         //===계약서 관련된 계정 검색===
         List<String> emails = new ArrayList<>();
         emails.add(principal.getName());
+        emails.addAll(request.getReceivers());
 
         List<Account> findAccountList = accountService.findByEmailList(emails);
 
@@ -56,8 +57,8 @@ public class ContractController {
                 .toList();
 
         if (emails.size() != findAccountList.size()) {
-            invalidEmailList = emails.stream().filter(findAccountEmailList::contains).toList();
-            throw new IllegalArgumentException(invalidEmailList.toString() + "에 해당하는 계정이 없습니다.");
+            invalidEmailList = emails.stream().filter(email -> !findAccountEmailList.contains(email)).toList();
+            throw new IllegalArgumentException(invalidEmailList + "에 해당하는 계정이 없습니다.");
         }
 
         //===account에 contract 추가(연관관계 메서드)===
