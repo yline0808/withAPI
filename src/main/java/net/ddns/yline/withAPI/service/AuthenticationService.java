@@ -17,6 +17,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
@@ -28,6 +30,11 @@ public class AuthenticationService {
 
     //사용자 생성 & 데이터베이스 저장 & 토큰생성반환
     public AuthenticationResponse register(RegisterRequest request) {
+        boolean isValidEmail = accountRepository.findByEmail(request.getEmail()).isEmpty();
+
+        //이메일 중복체크
+        if(!isValidEmail) throw new IllegalArgumentException("이미 해당 email로 가입되어있습니다.");
+
         var account = Account.builder()
                 .birthDate(request.getBirthDate())
                 .email(request.getEmail())

@@ -1,6 +1,7 @@
 package net.ddns.yline.withAPI.controller.contract;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import net.ddns.yline.withAPI.controller.SuccessResult;
@@ -88,7 +89,9 @@ public class ContractController {
 
     @Data
     static class CreateContractRequest{
+        @NotBlank(message = "제목은 필수값 입니다.")
         private String title;
+        @NotBlank(message = "내용은 필수값 입니다.")
         private String content;
         private List<String> receivers = new ArrayList<>();
     }

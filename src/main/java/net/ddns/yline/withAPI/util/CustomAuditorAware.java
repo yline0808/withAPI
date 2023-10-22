@@ -21,7 +21,7 @@ public class CustomAuditorAware implements AuditorAware<String> {
         // 예를 들어, authentication.getPrincipal()로 UserDetails 객체를 얻고, UserDetails.getUsername()으로 사용자 이름을 추출
         // 아래 예시는 UserDetails 인터페이스를 사용한 경우입니다.
         if (authentication.getPrincipal() instanceof Account findAccount) {
-            return Optional.of(findAccount.getId()+"_"+findAccount.getEmail());
+            return Optional.of(findAccount.getId().toString());
         }
 
         return Optional.empty();
