@@ -4,7 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import net.ddns.yline.withAPI.domain.base.BaseEntity;
-import net.ddns.yline.withAPI.domain.contractmap.ContractMap;
+import net.ddns.yline.withAPI.domain.contractFile.ContractFile;
+import net.ddns.yline.withAPI.domain.contractMap.ContractMap;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,8 +26,6 @@ public class Contract extends BaseEntity {
     @Setter
     @Enumerated(EnumType.STRING)
     private ContractStatus contractStatus;
-    private String imgSeq;
-    @Setter
-    private String fileName;
-    private String fileSeq;
+    @OneToMany(mappedBy = "contract")
+    private List<ContractFile> contractFileList = new ArrayList<>();
 }

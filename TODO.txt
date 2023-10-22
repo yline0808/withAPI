@@ -24,3 +24,8 @@
         http://yline.iptime.org:18080/api/v1/account/currentUser
     - 유저정보 변경 [PATCH]
         http://yline.iptime.org:18080/api/v1/account/currentUser
+
+
+ [근태역량강화]
+- 데모 사용하면서 단점
+- 지금까지 어떤 과정으로 진행해 왔는지

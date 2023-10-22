@@ -6,6 +6,8 @@ spring:
 #    driver-class-name: org.h2.Driver
     driver-class-name: com.p6spy.engine.spy.P6SpyDriver
 
+
+
   jpa:
     hibernate:
       ddl-auto: create-drop
@@ -21,12 +23,25 @@ spring:
     host: smtp.gmail.com
     port: 587
     username: yline0088@gmail.com
-    password: brqbywyusztkcxsr
-    #    password: nehxiofgzofqhlyd
+    password: mflwoksyxrqjhrmw
+    debug: true
+
     properties:
       mail.smtp.auth: true
       mail.smtp.starttls.enable: true
 
+  # 파일 업로드 설정
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 2KB
+      max-file-size: 200MB
+      max-request-size: 215MB
+
 jwt:
   secret-key: 3878214125442A472D4B6150645367566B597033733676397924423F4528482B
   expiration: 24
+
+# 파일업로드 경로
+file:
+  upload-dir: /Users/yline/project/withAPI/src/main/resources/upload/userFile

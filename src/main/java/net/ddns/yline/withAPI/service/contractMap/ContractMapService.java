@@ -2,7 +2,7 @@ package net.ddns.yline.withAPI.service.contractMap;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import net.ddns.yline.withAPI.domain.contractmap.ContractMap;
+import net.ddns.yline.withAPI.domain.contractMap.ContractMap;
 import net.ddns.yline.withAPI.repository.contractMap.ContractMapRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

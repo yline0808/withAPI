@@ -1,4 +1,4 @@
-package net.ddns.yline.withAPI.domain.contractmap;
+package net.ddns.yline.withAPI.domain.contractMap;
 
 import jakarta.persistence.*;
 import lombok.*;
