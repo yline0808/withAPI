@@ -90,10 +90,15 @@ public class ExControllerAdvice {
 
     // @ExceptionHandler 가 붙은 메서드의 인수에 예외 지정
     @ExceptionHandler
-    public ResponseEntity<ErrorResult> userExHandler(UserException e) {
+    public ResponseEntity<?> userExHandler(UserException e) {
         log.error("[exceptionHandler] ex", e);
-        ErrorResult errorResult = new ErrorResult("USER-EX", e.getMessage());
-        return new ResponseEntity<>(errorResult, HttpStatus.BAD_REQUEST);
+        if(e.getErrorMessageList().size() != 0){
+            ErrorResultList errorResultList = new ErrorResultList(e.getMessage(), e.getErrorMessageList());
+            return new ResponseEntity<>(errorResultList, HttpStatus.BAD_REQUEST);
+        }else{
+            ErrorResult errorResult = new ErrorResult("USER-EX", e.getMessage());
+            return new ResponseEntity<>(errorResult, HttpStatus.BAD_REQUEST);
+        }
     }
 
     // @ExceptionHandler 가 붙은 메서드의 인수에 예외 지정

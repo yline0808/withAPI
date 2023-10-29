@@ -1,8 +1,7 @@
 package net.ddns.yline.withAPI.domain.contract;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import net.ddns.yline.withAPI.domain.base.BaseEntity;
 import net.ddns.yline.withAPI.domain.contractFile.ContractFile;
 import net.ddns.yline.withAPI.domain.contractMap.ContractMap;
@@ -12,20 +11,22 @@ import java.util.List;
 
 @Entity
 @Getter
+@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class Contract extends BaseEntity {
 
     @Id
     @GeneratedValue
     private Long id;
+    @Builder.Default
     @OneToMany(mappedBy = "contract")
     private List<ContractMap> contractMapList = new ArrayList<>();
-    @Setter
     private String title;
-    @Setter
     private String content;
-    @Setter
     @Enumerated(EnumType.STRING)
     private ContractStatus contractStatus;
+    @Builder.Default
     @OneToMany(mappedBy = "contract")
     private List<ContractFile> contractFileList = new ArrayList<>();
 }

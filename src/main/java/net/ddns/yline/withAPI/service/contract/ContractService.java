@@ -14,6 +14,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class ContractService {
     private final ContractRepository contractRepository;
 
+    public Contract findById(Long id) {
+        return contractRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 id가 없습니다."));
+    }
+
     @Transactional
     public Long save(Contract contract) {
         contractRepository.save(contract);

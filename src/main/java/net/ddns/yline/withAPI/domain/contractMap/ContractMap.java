@@ -10,7 +10,9 @@ import static jakarta.persistence.FetchType.*;
 
 @Entity
 @Getter
-//@NoArgsConstructor
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ContractMap {
 
     @Id
@@ -22,7 +24,6 @@ public class ContractMap {
     @JoinColumn(name = "account_id")
     private Account account;
 
-    @Setter
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "contract_id")
     private Contract contract;
@@ -30,4 +31,15 @@ public class ContractMap {
     @Setter
     @Enumerated(STRING)
     private Opinion opinion;
+
+    //=== 연관관계 메서드 ===
+    public void setAccount(Account account) {
+        this.account = account;
+        account.getContractMapList().add(this);
+    }
+
+    public void setContract(Contract contract) {
+        this.contract = contract;
+        contract.getContractMapList().add(this);
+    }
 }

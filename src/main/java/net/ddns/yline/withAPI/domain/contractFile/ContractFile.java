@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import net.ddns.yline.withAPI.domain.base.BaseEntity;
 import net.ddns.yline.withAPI.domain.contract.Contract;
+import net.ddns.yline.withAPI.domain.file.UploadedFile;
 
 import static jakarta.persistence.FetchType.*;
 
@@ -18,13 +19,16 @@ public class ContractFile extends BaseEntity {
     @GeneratedValue
     private Long id;
 
-    private String originalName;
-    private String saveName;
-    private String type;
-    private Long size;
-    private FileStatus fileStatus;
-    @Setter
+    @Embedded
+    private UploadedFile uploadedFile;
+
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "contract_id")
     private Contract contract;
+
+    //=== 연관관계 메서드 ===
+    public void setContract(Contract contract) {
+        this.contract = contract;
+        contract.getContractFileList().add(this);
+    }
 }
