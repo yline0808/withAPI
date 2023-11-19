@@ -10,8 +10,12 @@ import net.ddns.yline.withAPI.domain.account.Account;
 import net.ddns.yline.withAPI.domain.contract.Contract;
 import net.ddns.yline.withAPI.domain.contract.ContractStatus;
 import net.ddns.yline.withAPI.domain.contractFile.ContractFile;
+import net.ddns.yline.withAPI.repository.contract.ContractDto;
+import net.ddns.yline.withAPI.service.contract.ContractService;
 import net.ddns.yline.withAPI.service.contractFile.ContractFileService;
 import net.ddns.yline.withAPI.service.contractMap.ContractMapService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,15 +30,17 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/contract")
 public class ContractController {
-
+    private final ContractService contractService;
     private final ContractMapService contractMapService;
 
     @GetMapping
-    public ResponseEntity<SearchContractResponse> getContractList(
-            @RequestBody @Valid SearchContractRequest request
-    ) {
-
-        return ResponseEntity.ok(new SearchContractResponse());
+    public ResponseEntity<Page<ContractDto>> getContractList(
+            @RequestParam(value = "searchType") String searchType,
+            @RequestParam(value = "searchKeyword") String searchKeyword,
+            Pageable pageable,
+            Principal principal) {
+        Page<ContractDto> findContract = contractService.findByTitleOrContent(searchType, searchKeyword, pageable, principal);
+        return ResponseEntity.ok(findContract);
     }
 
     @PostMapping
@@ -51,6 +57,7 @@ public class ContractController {
         //계약서 메핑 인원
         List<String> receivers = request.getReceivers();
         receivers.add(principal.getName());
+        receivers = receivers.stream().distinct().toList();
 
         //인원별 계약서 저장
         Long savedContractId = contractMapService.saveAccountMapping(contract, receivers);
@@ -60,10 +67,10 @@ public class ContractController {
 
     @Data
     static class CreateContractResponse{
-        private Long id;
+        private Long contractId;
 
-        public CreateContractResponse(Long id) {
-            this.id = id;
+        public CreateContractResponse(Long contractId) {
+            this.contractId = contractId;
         }
     }
 
@@ -76,44 +83,37 @@ public class ContractController {
         private List<String> receivers = new ArrayList<>();
     }
 
-    @Data
-    static class SearchContractRequest{
-        private Long searchId;
-        private String searchTitle;
-        private String searchContent;
-    }
-
-    @Data
-    static class SearchContractResponse{
-        private List<ContractDto> contractList = new ArrayList<>();
-        private Long page;
-        private Long count;
-        private Long total;
-    }
-
-    @Getter
-    static class ContractDto{
-        private Long id;
-        private String title;
-        private String content;
-        private String status;
-        private LocalDateTime createdAt;
-        private List<ContractFileDto> contractFileList;
-        private List<AccountDto> accountList;
-
-        public ContractDto(Contract contract) {
-            this.id = contract.getId();
-            this.title = contract.getTitle();
-            this.content = contract.getContent();
-            this.status = contract.getContractStatus().toString();
-            this.createdAt = contract.getCreatedDate();
-            this.contractFileList = contract.getContractFileList().stream().map(ContractFileDto::new)
-                    .collect(Collectors.toList());
-            this.accountList = contract.getContractMapList().stream()
-                    .map(contractMap -> new AccountDto(contractMap.getAccount()))
-                    .collect(Collectors.toList());
-        }
-    }
+//    @Data
+//    static class SearchContractResponse{
+//        private List<ContractDto> contractList = new ArrayList<>();
+//        private Long page;
+//        private Long count;
+//        private Long total;
+//    }
+//
+//    @Getter
+//    static class ContractDto{
+//        private Long id;
+//        private String title;
+//        private String content;
+//        private String status;
+//        private LocalDateTime createdAt;
+//        private List<ContractFileDto> contractFileList;
+//        private List<AccountDto> accountList;
+//
+//        public ContractDto(Contract contract) {
+//            this.id = contract.getId();
+//            this.title = contract.getTitle();
+//            this.content = contract.getContent();
+//            this.status = contract.getContractStatus().toString();
+//            this.createdAt = contract.getCreatedDate();
+//            this.contractFileList = contract.getContractFileList().stream().map(ContractFileDto::new)
+//                    .collect(Collectors.toList());
+//            this.accountList = contract.getContractMapList().stream()
+//                    .map(contractMap -> new AccountDto(contractMap.getAccount()))
+//                    .collect(Collectors.toList());
+//        }
+//    }
 
     @Getter
     static class ContractFileDto{
