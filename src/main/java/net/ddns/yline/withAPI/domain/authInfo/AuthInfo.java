@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Getter
 public class AuthInfo extends BaseEntity {

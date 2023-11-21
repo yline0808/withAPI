@@ -34,18 +34,18 @@ public class ContractService {
             String searchType, String searchKeyword,
             Pageable pageable, Principal principal) {
         Page<ContractDto> findContractDto = null;
-        
-        if (searchType.isEmpty()) {
-            contractRepository.findByTitle()
-        }else{
-            if (searchType.equals("title")) {
-                findContractDto = contractQueryRepository.findByTitle(searchKeyword, pageable, principal.getName());
-            } else if (searchType.equals("content")) {
+        findContractDto = contractQueryRepository.findByTitle(searchKeyword, pageable, principal.getName());
+//        if (searchType.isEmpty()) {
+//            contractQueryRepository.findByEmail(principal.getName());
+//        }else{
+//            if (searchType.equals("title")) {
+//                findContractDto = contractQueryRepository.findByTitle(searchKeyword, pageable, principal.getName());
+//            } else if (searchType.equals("content")) {
 //                contractQueryRepository.findByContent(searchKeyword, pageable, principal.getName());
-            } else {
-                throw new IllegalArgumentException("검색 타입이 잘못됐습니다.");
-            }
-        }
+//            } else {
+//                throw new IllegalArgumentException("검색 타입이 잘못됐습니다.");
+//            }
+//        }
 
         return findContractDto;
     }

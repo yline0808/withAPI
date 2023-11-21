@@ -1,14 +1,11 @@
 package net.ddns.yline.withAPI.domain.mailvo;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Getter
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MailVo {
     private String toAddress; // 받는 이메일 주소
     private String title; // 이메일 제목

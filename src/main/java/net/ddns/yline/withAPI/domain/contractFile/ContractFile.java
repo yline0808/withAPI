@@ -11,7 +11,7 @@ import static jakarta.persistence.FetchType.*;
 @Entity
 @Getter
 @Builder
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class ContractFile extends BaseEntity {
 

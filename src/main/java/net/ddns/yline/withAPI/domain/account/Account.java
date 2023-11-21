@@ -1,10 +1,7 @@
 package net.ddns.yline.withAPI.domain.account;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import net.ddns.yline.withAPI.domain.address.Address;
 import net.ddns.yline.withAPI.domain.base.BaseEntity;
 import net.ddns.yline.withAPI.domain.contractMap.ContractMap;
@@ -19,7 +16,7 @@ import java.util.List;
 
 @Data
 @Builder
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Entity
 public class Account extends BaseEntity implements UserDetails {

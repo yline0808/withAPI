@@ -1,16 +1,13 @@
 package net.ddns.yline.withAPI.domain.token;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import net.ddns.yline.withAPI.domain.account.Account;
 import net.ddns.yline.withAPI.domain.base.BaseEntity;
 
 @Data
 @Builder
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Entity
 public class Token extends BaseEntity {

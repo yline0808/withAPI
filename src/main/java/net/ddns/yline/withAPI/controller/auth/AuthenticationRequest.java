@@ -1,15 +1,12 @@
 package net.ddns.yline.withAPI.controller.auth;
 
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class AuthenticationRequest{
     @NotBlank(message = "email은 필수값 입니다.")
     private String email;
