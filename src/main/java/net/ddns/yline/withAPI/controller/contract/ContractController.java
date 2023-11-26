@@ -5,26 +5,22 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import net.ddns.yline.withAPI.controller.SuccessResult;
 import net.ddns.yline.withAPI.domain.account.Account;
 import net.ddns.yline.withAPI.domain.contract.Contract;
 import net.ddns.yline.withAPI.domain.contract.ContractStatus;
 import net.ddns.yline.withAPI.domain.contractFile.ContractFile;
-import net.ddns.yline.withAPI.repository.contract.ContractDto;
+import net.ddns.yline.withAPI.dto.contract.ContractDto;
+import net.ddns.yline.withAPI.dto.contract.ContractSearchCondition;
 import net.ddns.yline.withAPI.service.contract.ContractService;
-import net.ddns.yline.withAPI.service.contractFile.ContractFileService;
 import net.ddns.yline.withAPI.service.contractMap.ContractMapService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.security.Principal;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -35,11 +31,18 @@ public class ContractController {
 
     @GetMapping
     public ResponseEntity<Page<ContractDto>> getContractList(
-            @RequestParam(value = "searchType") String searchType,
-            @RequestParam(value = "searchKeyword") String searchKeyword,
+            @RequestParam(required = false) String searchTitle,
+            @RequestParam(required = false) String searchContent,
             Pageable pageable,
             Principal principal) {
-        Page<ContractDto> findContract = contractService.findByTitleOrContent(searchType, searchKeyword, pageable, principal);
+
+        ContractSearchCondition contractSearchCondition = new ContractSearchCondition();
+        contractSearchCondition.setTitle(searchTitle);
+        contractSearchCondition.setContent(searchContent);
+        contractSearchCondition.setEmail(principal.getName());
+        Page<ContractDto> findContract = contractService.findByTitleOrContent(
+                contractSearchCondition,
+                pageable);
         return ResponseEntity.ok(findContract);
     }
 
