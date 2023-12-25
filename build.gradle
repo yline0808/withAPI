@@ -33,7 +33,8 @@ dependencies {
 	//spring security
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	//h2 database
-	runtimeOnly 'com.h2database:h2'
+//	runtimeOnly 'com.h2database:h2'
+	runtimeOnly 'com.mysql:mysql-connector-j'
 	//oracle database
 //	runtimeOnly 'com.oracle.database.jdbc:ojdbc8'
 	//jwt

@@ -21,7 +21,7 @@ public class ContractFileController {
     @PostMapping
     public ResponseEntity<SuccessResult> uploadFile(
             @RequestParam Long contractId,
-            @RequestParam("files") List<MultipartFile> files) {
+            @RequestParam(required = false) List<MultipartFile> files) {
         if (files.isEmpty() || contractId == null) {
             throw new IllegalArgumentException("파일이 없습니다.");
         }
