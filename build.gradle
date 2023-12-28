@@ -83,6 +83,7 @@ querydsl {
 
 	jpa = true
 	querydslSourcesDir = querydslDir
+//	querydslSourcesDir = projectDir.absolutePath + '/src/main/generated'
 }
 sourceSets {
 	main.java.srcDir querydslDir
@@ -92,5 +93,9 @@ configurations {
 }
 compileQuerydsl {
 	options.annotationProcessorPath = configurations.querydsl
+}
+
+clean{
+	delete file(querydslDir)
 }
 // querydsl 추가 끝
